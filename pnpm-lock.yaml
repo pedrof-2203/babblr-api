@@ -67,7 +67,7 @@ importers:
         specifier: ^30.0.0
         version: 30.5.1(@types/node@24.13.4)(supports-color@8.1.1)(ts-node@10.9.2(@types/node@24.13.4)(typescript@5.9.3))
       prettier:
-        specifier: ^3.4.2
+        specifier: ^3.9.6
         version: 3.9.6
       source-map-support:
         specifier: ^0.5.21

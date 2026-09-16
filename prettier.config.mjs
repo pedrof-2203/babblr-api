@@ -23,24 +23,24 @@ const config = {
       files: ['*.json', '*.jsonc'],
       options: {
         parser: 'json',
-        tabWidth: 2,
-      },
+        tabWidth: 2
+      }
     },
     {
       files: ['*.yml', '*.yaml'],
       options: {
         tabWidth: 2,
-        singleQuote: false,
-      },
+        singleQuote: false
+      }
     },
     {
       files: '*.md',
       options: {
         printWidth: 80,
-        proseWrap: 'always',
-      },
-    },
-  ],
+        proseWrap: 'always'
+      }
+    }
+  ]
 };
 
 export default config;
