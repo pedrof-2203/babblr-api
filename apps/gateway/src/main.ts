@@ -1,10 +1,11 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { GatewayModule } from './gateway.module';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(GatewayModule);
 
   app.setGlobalPrefix('api');
@@ -13,8 +14,8 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      forbidNonWhitelisted: true,
-    }),
+      forbidNonWhitelisted: true
+    })
   );
 
   const swaggerConfig = new DocumentBuilder()
@@ -25,9 +26,9 @@ async function bootstrap() {
       {
         type: 'http',
         scheme: 'bearer',
-        bearerFormat: 'JWT',
+        bearerFormat: 'JWT'
       },
-      'access-token',
+      'access-token'
     )
     .build();
 
@@ -35,11 +36,17 @@ async function bootstrap() {
 
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
-      persistAuthorization: true,
-    },
+      persistAuthorization: true
+    }
   });
 
-  await app.listen(3000);
+  app.enableShutdownHooks();
+  const port = app.get(ConfigService).getOrThrow<number>('PORT');
+  await app.listen(port);
+  Logger.log(`Gateway listening on HTTP port ${port}`, 'Bootstrap');
 }
 
-void bootstrap();
+void bootstrap().catch((error: unknown) => {
+  Logger.error(error, undefined, 'Bootstrap');
+  process.exitCode = 1;
+});

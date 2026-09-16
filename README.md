@@ -33,6 +33,27 @@ $ pnpm install
 
 ## Compile and run the project
 
+The public HTTP application is `gateway` (port 3000). Internal applications
+`collab` (3001), `identity` (3002), and `messaging` (3003) listen only on TCP.
+The gateway exports their ClientProxy providers through `TcpClientsModule`.
+There are currently no business HTTP routes; Swagger remains at `/docs`.
+
+Run commands from the repository root. Copy each `apps/<app>/.env.example`
+to `apps/<app>/.env` to override development defaults. Environment variables
+take precedence. Ports must be integers from 1 to 65535 and distinct.
+Keep port overrides consistent between the gateway and each deployed service;
+independent processes cannot inspect each other's environment files.
+For Docker Compose, set the gateway's `COLLAB_HOST=collab`,
+`IDENTITY_HOST=identity`, and `MESSAGING_HOST=messaging`. Keep service bind
+hosts at `0.0.0.0`. No additional configuration is required for local startup.
+
+- `pnpm build`: build all four applications.
+- `pnpm start:dev`: run all four applications with watch mode.
+- `pnpm start:prod:all`: run all four compiled applications.
+- `pnpm test:runtime`: after building, start all apps, check the gateway TCP
+  providers against the internal health pattern and verify Swagger HTTP routes,
+  then stop the processes. Assigned ports must be available before running.
+
 ```bash
 # development
 $ pnpm run start
