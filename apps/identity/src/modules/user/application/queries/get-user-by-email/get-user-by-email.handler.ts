@@ -20,6 +20,7 @@ export class GetUserByEmailHandler implements IQueryHandler<
 
     return {
       id: user.id.value(),
+      displayName: user.displayName.value(),
       emailAddress: user.emailAddress.value(),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
