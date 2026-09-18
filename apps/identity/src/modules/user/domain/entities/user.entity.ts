@@ -1,9 +1,15 @@
 import { ConflictException } from '@nestjs/common';
 import { Entity, EntityProps } from 'libs/shared/domain/entities/entity';
-import { EmailAddress, PasswordHash, UserId } from '../value-objects';
+import {
+  DisplayName,
+  EmailAddress,
+  PasswordHash,
+  UserId
+} from '../value-objects';
 
 interface UserProps extends EntityProps {
   id?: UserId;
+  displayName: DisplayName;
   emailAddress: EmailAddress;
   passwordHash: PasswordHash;
 }
@@ -17,6 +23,7 @@ export class User extends Entity<UserProps> {
     const now = new Date();
     return new User({
       id: new UserId(),
+      displayName: props.displayName,
       emailAddress: props.emailAddress,
       passwordHash: props.passwordHash,
       createdAt: now,
@@ -27,6 +34,7 @@ export class User extends Entity<UserProps> {
   static restore(props: UserProps): User {
     return new User({
       id: props.id,
+      displayName: props.displayName,
       emailAddress: props.emailAddress,
       passwordHash: props.passwordHash,
       createdAt: props.createdAt,
@@ -38,6 +46,10 @@ export class User extends Entity<UserProps> {
     return this.id;
   }
 
+  get displayName(): DisplayName {
+    return this.props.displayName;
+  }
+
   get emailAddress(): EmailAddress {
     return this.props.emailAddress;
   }
@@ -46,9 +58,17 @@ export class User extends Entity<UserProps> {
     return this.props.passwordHash;
   }
 
+  changeName(newName: DisplayName): void {
+    if (newName.equals(this.props.displayName)) {
+      return;
+    }
+    this.props.displayName = newName;
+    this.touch();
+  }
+
   changeEmail(newAddress: EmailAddress): void {
     if (newAddress.equals(this.props.emailAddress)) {
-      throw new ConflictException();
+      return;
     }
     this.props.emailAddress = newAddress;
     this.touch();
@@ -56,7 +76,7 @@ export class User extends Entity<UserProps> {
 
   changePassword(newPassword: PasswordHash): void {
     if (newPassword.equals(this.props.passwordHash)) {
-      throw new ConflictException();
+      return;
     }
     this.props.passwordHash = newPassword;
     this.touch();

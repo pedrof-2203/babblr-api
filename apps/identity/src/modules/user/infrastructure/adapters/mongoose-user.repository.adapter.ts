@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { MongooseRepositoryAdapter } from 'libs/shared/infrastructure/adapters/mongoose.repository.adapter';
 import { UserRepositoryPort } from '../../application/ports/user-repository.port';
 import { User } from '../../domain/entities/user.entity';
-import { EmailAddress, PasswordHash, UserId } from '../../domain/value-objects';
+import { DisplayName, EmailAddress, PasswordHash, UserId } from '../../domain/value-objects';
 import { User as UserRecord } from '../schemas/user.schema';
 
 @Injectable()
@@ -30,6 +30,7 @@ export class MongooseUserRepositoryAdapter
   protected toDomain(record: UserRecord): User {
     return User.restore({
       id: new UserId(record._id),
+      displayName: new DisplayName(record.displayName),
       emailAddress: new EmailAddress(record.emailAddress),
       passwordHash: new PasswordHash(record.passwordHash),
       createdAt: record.createdAt,
@@ -42,6 +43,7 @@ export class MongooseUserRepositoryAdapter
 
     return {
       _id: user.userId.value(),
+      displayName: props.displayName.value(),
       emailAddress: props.emailAddress.value(),
       passwordHash: props.passwordHash.value(),
       createdAt: props.createdAt,

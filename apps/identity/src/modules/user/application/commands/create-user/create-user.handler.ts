@@ -4,7 +4,7 @@ import { UserRepositoryPort } from '../../ports/user-repository.port';
 import { User } from '../../../domain/entities/user.entity';
 import { HashPort } from '@app/hash';
 import { ConflictException } from '@nestjs/common';
-import { EmailAddress, PasswordHash } from '../../../domain/value-objects';
+import { DisplayName, EmailAddress, PasswordHash } from '../../../domain/value-objects';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<
@@ -27,6 +27,7 @@ export class CreateUserHandler implements ICommandHandler<
     }
 
     const user = User.create({
+      displayName: new DisplayName(command.displayName),
       emailAddress: new EmailAddress(command.emailAddress),
       passwordHash: new PasswordHash(
         await this.bcryptAdapter.hash(command.plainPassword)

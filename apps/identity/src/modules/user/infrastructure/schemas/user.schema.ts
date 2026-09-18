@@ -9,6 +9,9 @@ export class User {
   _id: string;
 
   @Prop({ type: String, required: true, unique: true })
+  displayName: string;
+
+  @Prop({ type: String, required: true, unique: true })
   emailAddress: string;
 
   @Prop({ type: String, required: true })

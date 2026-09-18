@@ -15,11 +15,15 @@ export class UserMessageController {
     private readonly queryBus: QueryBus
   ) {}
 
-  @MessagePattern({ cmd: 'identity.user.create' })
+  @MessagePattern(UserPatterns.CREATE)
   async create(@Payload() contract: CreateUserContract.Request) {
     try {
       await this.commandBus.execute(
-        new CreateUserCommand(contract.emailAddress, contract.plainPassword)
+        new CreateUserCommand(
+          contract.displayName,
+          contract.emailAddress,
+          contract.plainPassword
+        )
       );
     } catch (error) {
       if (error instanceof HttpException) {
@@ -45,6 +49,7 @@ export class UserMessageController {
   private toContract(user: User): UserContract {
     return {
       id: user.id.value(),
+      displayName: user.displayName.value(),
       emailAddress: user.emailAddress.value(),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
