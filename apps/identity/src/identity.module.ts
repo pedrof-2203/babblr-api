@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { IdentityController } from './identity.controller';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [],
-  controllers: [IdentityController]
+  imports: [AuthModule, UserModule]
 })
 export class IdentityModule {}
