@@ -12,7 +12,7 @@ import {
   IDENTITY_SERVICE,
   MESSAGING_SERVICE,
   HEALTH_PATTERN
-} from '@app/contracts';
+} from 'libs/contracts';
 
 async function verify(): Promise<void> {
   const processes = ['gateway', 'collab', 'identity', 'messaging'].map((app) =>

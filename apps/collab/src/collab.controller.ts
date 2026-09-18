@@ -1,4 +1,4 @@
-import { HEALTH_PATTERN } from '@app/contracts';
+import { HEALTH_PATTERN } from 'libs/contracts';
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 

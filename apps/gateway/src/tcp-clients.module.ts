@@ -2,7 +2,7 @@ import {
   COLLAB_SERVICE,
   IDENTITY_SERVICE,
   MESSAGING_SERVICE
-} from '@app/contracts';
+} from 'libs/contracts';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
