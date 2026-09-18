@@ -26,6 +26,10 @@
     "noFallthroughCasesInSwitch": false,
 
     "paths": {
+      "@app/hash": ["./libs/hash"],
+      "@app/hash/*": ["./libs/hash/*"],
+      "@app/database": ["./libs/database"],
+      "@app/database/*": ["./libs/database/*"],
       "@app/contracts": ["./libs/contracts/src"],
       "@app/contracts/*": ["./libs/contracts/src/*"],
       "@app/shared": ["./libs/shared/src"],
