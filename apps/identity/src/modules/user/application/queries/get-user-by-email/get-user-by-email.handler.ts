@@ -21,7 +21,6 @@ export class GetUserByEmailHandler implements IQueryHandler<
     return {
       id: user.id.value(),
       emailAddress: user.emailAddress.value(),
-      passwordHash: user.passworHash.value(),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
     };
