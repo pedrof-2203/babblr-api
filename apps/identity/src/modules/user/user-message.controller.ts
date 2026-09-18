@@ -6,6 +6,7 @@ import { CreateUserCommand } from './application/commands/create-user/create-use
 import { GetUserByIdQuery } from './application/queries/get-user-by-id/get-user-by-id.query';
 import { User } from './domain/entities/user.entity';
 import { UserContract } from 'libs/contracts/identity/user/user.contract';
+import { UserPatterns } from 'libs/contracts/identity/user/patterns';
 
 @Controller()
 export class UserMessageController {
@@ -33,7 +34,7 @@ export class UserMessageController {
     return { message: 'User created' };
   }
 
-  @MessagePattern({ cmd: 'identity.user.get-by-id' })
+  @MessagePattern(UserPatterns.FIND_BY_ID)
   async findById(@Payload('id') id: string) {
     const user = await this.queryBus.execute<GetUserByIdQuery, User>(
       new GetUserByIdQuery(id)
